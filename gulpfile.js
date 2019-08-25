@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const pug = require('gulp-pug');
 const stylus = require('gulp-stylus');
 const connect = require('gulp-connect');
+const imagemin = require('gulp-imagemin');
 
 gulp.task('pug', function(done) {
   gulp
@@ -18,6 +19,14 @@ gulp.task('stylus', function(done) {
     .pipe(stylus())
     .pipe(gulp.dest('./out/assets/styles/'))
     .pipe(connect.reload());
+  done();
+});
+
+gulp.task('imagemin', function(done) {
+  gulp
+    .src('./src/assets/images/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('./out/assets/images/'));
   done();
 });
 
@@ -38,5 +47,5 @@ gulp.task('serve', function(done) {
   done();
 });
 
-gulp.task('build', gulp.parallel('stylus', 'pug'));
+gulp.task('build', gulp.parallel('stylus', 'pug', 'imagemin'));
 gulp.task('server', gulp.parallel('serve', 'watch'));
